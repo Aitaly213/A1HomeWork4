@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,6 +18,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.ItemC
     RecyclerView recyclerView;
     MainAdapter mainAdapter;
     List<ContactModel> list;
+    int positionItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +31,8 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.ItemC
         mainAdapter  = new MainAdapter((ArrayList<ContactModel>) list,MainActivity.this);
         recyclerView.setAdapter(mainAdapter);
 
-        mainAdapter.setOnClickListener(this::onItemClick);
+        mainAdapter.setOnClickListener(this);
     }
-
 
     public void openActivityTwo(View view) {
         Intent intent = new Intent(MainActivity.this ,MainActivity2.class  );
@@ -42,18 +43,28 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.ItemC
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK && data != null){
-            data.getData();
             ContactModel contactModel = (ContactModel) data.getSerializableExtra("hgh");
-            list.add(contactModel);
-            mainAdapter.notifyDataSetChanged();
+
+                list.add(contactModel);
+                mainAdapter.notifyDataSetChanged();
+
+        }
+        if (requestCode == 2 && resultCode== RESULT_OK){
+            ContactModel contactModel = (ContactModel) data.getSerializableExtra("hgh");
+            list.remove(positionItem);
+            mainAdapter.notifyItemRemoved(positionItem);
+            mainAdapter.notifyItemRangeChanged(positionItem,mainAdapter.getItemCount());
+            list.add(positionItem,contactModel);
+            mainAdapter.notifyItemInserted(positionItem);
         }
     }
 
 
     @Override
     public void onItemClick(int position) {
+        positionItem = position;
         Intent intent = new Intent(MainActivity.this , MainActivity2.class);
-        startActivityForResult(intent,6);
-
+        intent.putExtra("hgh",list.get(position));
+        startActivityForResult(intent,2);
     }
 }

@@ -25,7 +25,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
     public Context context;
     private ItemClickListener listener;
 
-    public MainAdapter(ArrayList<ContactModel> arrayList, Context context) {
+    public MainAdapter(List<ContactModel> arrayList, Context context) {
         this.arrayList = arrayList;
         this.context = context;
     }
@@ -85,6 +85,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
             super(itemView);
 
 
+            itemView.setOnClickListener(this);
             textView1 = itemView.findViewById(R.id.textView);
             textView2 = itemView.findViewById(R.id.phoneNumber);
             imageView1 = itemView.findViewById(R.id.imageView);

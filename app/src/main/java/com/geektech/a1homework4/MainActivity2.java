@@ -13,8 +13,10 @@ public class MainActivity2 extends AppCompatActivity {
     ImageView imageView;
     EditText editText1;
     EditText editText2;
+    ContactModel contactModel;
     private static final int GALLERY_REQUEST_CODE = 12;
     private static String  uriImage;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +26,19 @@ public class MainActivity2 extends AppCompatActivity {
         imageView = findViewById(R.id.edit_photo);
         editText1 = findViewById(R.id.edit_name);
         editText2 = findViewById(R.id.edit_number);
+
+
+        Intent intent = new Intent();
+        intent = getIntent();
+        ContactModel contactModel = (ContactModel) intent.getSerializableExtra("hgh");
+        if (contactModel != null ){
+            editText1.setText(contactModel.getName());
+            editText2.setText(contactModel.getPhone());
+
+        }
     }
+
+
 
     public void openGallery(View view){
         Intent intent = new Intent(Intent.ACTION_PICK);
@@ -47,6 +61,7 @@ public class MainActivity2 extends AppCompatActivity {
         ContactModel contactModel = new ContactModel();
         String str1 = editText1.getText().toString();
         String str2 = editText2.getText().toString();
+
         contactModel.setImage(uriImage);
         contactModel.setName(str1);
         contactModel.setPhone(str2);
@@ -54,4 +69,6 @@ public class MainActivity2 extends AppCompatActivity {
         setResult(RESULT_OK,intent);
         finish();
     }
+
+
 }
