@@ -34,7 +34,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
     @Override
     public MainViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.recycler_item,parent,false);
+        View view = layoutInflater.inflate(R.layout.recycler_item, parent, false);
 
         return new MainViewHolder(view);
     }
@@ -45,12 +45,12 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
         holder.imageView2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PopupMenu popupMenu = new PopupMenu(context,holder.imageView2);
+                PopupMenu popupMenu = new PopupMenu(context, holder.imageView2);
                 popupMenu.inflate(R.menu.menu);
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        if (item.getItemId() == R.id.delete){
+                        if (item.getItemId() == R.id.delete) {
                             arrayList.remove(position);
                             notifyItemChanged(position);
                             notifyItemRemoved(position);
@@ -65,17 +65,13 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
     }
 
 
-
     @Override
     public int getItemCount() {
         return arrayList.size();
     }
 
 
-
-
-
-    public class MainViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class MainViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         AppCompatTextView textView1;
         AppCompatTextView textView2;
         ImageView imageView1;
@@ -93,19 +89,19 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
 
         }
 
-        public void onBind(ContactModel data){
+        public void onBind(ContactModel data) {
             textView1.setText(data.getName());
             textView2.setText(data.getPhone());
 
-            if (data.getImage() != null){
+            if (data.getImage() != null) {
                 Glide.with(context).load(data.getImage())
                         .apply(RequestOptions
-                        .circleCropTransform())
+                                .circleCropTransform())
                         .into(imageView1);
-            }else {
+            } else {
                 Glide.with(context).load(R.drawable.user2)
                         .apply(RequestOptions
-                        .circleCropTransform())
+                                .circleCropTransform())
                         .into(imageView1);
             }
 
@@ -113,13 +109,14 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainViewHolder
 
         @Override
         public void onClick(View v) {
-            if (listener != null){
+            if (listener != null) {
                 listener.onItemClick(getAdapterPosition());
             }
         }
 
     }
-    public void setOnClickListener(ItemClickListener mListener){
+
+    public void setOnClickListener(ItemClickListener mListener) {
         this.listener = mListener;
     }
 
